@@ -1,0 +1,68 @@
+# This workflow will build your NCEA Bot application as an executable
+name: NceaBot
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:  # Allows manual triggering
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows:
+    runs-on: windows-latest  # Changed to Windows for building .exe
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        if (Test-Path -Path "requirements.txt") {pip install -r requirements.txt}
+        # Install specific dependencies if requirements.txt doesn't exist
+        if (-Not (Test-Path -Path "requirements.txt")) {
+          pip install google-generativeai kivy selenium webdriver-manager
+        }
+    - name: Build with PyInstaller
+      run: |
+        # Using the correct file name firstv3.py
+        pyinstaller --onefile --noconsole --name NceaBot firstv3.py
+    - name: Upload executable
+      uses: actions/upload-artifact@v3
+      with:
+        name: NceaBot-Windows
+        path: dist/NceaBot.exe
+        
+  # Optionally, you can add macOS build job as well
+  build-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # Install specific dependencies if requirements.txt doesn't exist
+        if [ ! -f requirements.txt ]; then
+          pip install google-generativeai kivy selenium webdriver-manager
+        fi
+    - name: Build with PyInstaller
+      run: |
+        # Using the correct file name firstv3.py
+        pyinstaller --onefile --noconsole --name NceaBot firstv3.py
+    - name: Upload executable
+      uses: actions/upload-artifact@v3
+      with:
+        name: NceaBot-MacOS
+        path: dist/NceaBot
