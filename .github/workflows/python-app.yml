@@ -46,8 +46,10 @@ jobs:
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
+        git tag -d "v1.0.0"  # Delete the local tag
+        git push --delete origin "v1.0.0"  # Delete the remote tag
         git tag -a "v1.0.0" -m "Release version 1.0.0"
-        git push origin "v1.0.0"
+        git push origin "v1.0.0"  # Push the new tag
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Create GitHub Release and Upload App
@@ -56,4 +58,5 @@ jobs:
         files: dist/NceaBot.app # Specify the correct path to your app bundle or zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
