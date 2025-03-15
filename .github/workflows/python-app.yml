@@ -46,6 +46,8 @@ jobs:
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
+        git tag -d "v1.0.0"  # Delete the local tag
+        git push --delete origin "v1.0.0"  # Delete the remote tag
         git tag -a "v1.0.0" -m "Release version 1.0.0"  # Create the tag
         git push origin "v1.0.0"  # Push the tag to remote
       env:
