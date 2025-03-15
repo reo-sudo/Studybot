@@ -8,7 +8,8 @@ on:
   workflow_dispatch:  # Allows manual triggering
 
 permissions:
-  contents: read
+  contents: write  # Allow workflow to push tags and create releases
+  issues: read
 
 jobs:
   build-macos:
@@ -43,8 +44,12 @@ jobs:
         path: dist/NceaBot
     - name: Create GitHub Tag
       run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
         git tag -a "v1.0.0" -m "Release version 1.0.0"
         git push origin "v1.0.0"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Create GitHub Release and Upload App
       uses: softprops/action-gh-release@v1
       with:
