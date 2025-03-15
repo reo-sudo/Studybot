@@ -27,6 +27,7 @@ jobs:
         if (Test-Path -Path "requirements.txt") {pip install -r requirements.txt}
     - name: Build with PyInstaller
       run: |
+        # If your main.py is inside a folder, change `main.py` to the correct path
         pyinstaller --onefile --name NceaBot --noconfirm main.py  # Corrected command without --windowed
     - name: Upload executable
       uses: actions/upload-artifact@v4
@@ -34,8 +35,6 @@ jobs:
         name: NceaBot-Windows
         path: dist/NceaBot.exe
 
-
-        
   build-macos:
     runs-on: macos-latest
     steps:
@@ -59,6 +58,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Build with PyInstaller
       run: |
+        # If your main.py is inside a folder, change `main.py` to the correct path
         pyinstaller --onefile --windowed --name NceaBot main.py  # Make sure this is the correct path
     - name: Upload executable
       uses: actions/upload-artifact@v4
