@@ -45,12 +45,17 @@ jobs:
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
-        git tag -d "v${{ github.run_number }}"  # Delete the old tag if it exists
-        git push --delete origin "v${{ github.run_number }}"  # Delete the remote tag
-        git tag -a "v${{ github.run_number }}" -m "Release version ${{ github.run_number }}"  # Create the new tag
+        # Check if the tag exists, if it does, delete it
+        if git rev-parse "v${{ github.run_number }}" >/dev/null 2>&1; then
+          git tag -d "v${{ github.run_number }}"
+          git push --delete origin "v${{ github.run_number }}"
+        fi
+        # Create the new tag
+        git tag -a "v${{ github.run_number }}" -m "Release version ${{ github.run_number }}"
         git push origin "v${{ github.run_number }}"  # Push the new tag to remote
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Create GitHub Release and Upload App
       uses: softprops/action-gh-release@v1
       with:
@@ -59,6 +64,4 @@ jobs:
         files: dist/NceaBot.app  # Specify the correct path to your app bundle or zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
 
