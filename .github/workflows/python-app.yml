@@ -1,4 +1,3 @@
-# This workflow will build your NCEA Bot application as an executable
 name: NceaBot
 
 on:
@@ -42,3 +41,9 @@ jobs:
       with:
         name: NceaBot-MacOS
         path: dist/NceaBot
+    - name: Create GitHub Release and Upload App
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/NceaBot.app # Specify the correct path to your app bundle or zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
