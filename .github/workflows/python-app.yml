@@ -40,7 +40,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: NceaBot-MacOS
-        path: dist/NceaBot
+        path: dist/main.py
     - name: Create GitHub Tag
       run: |
         git config --global user.name "GitHub Actions"
@@ -61,7 +61,7 @@ jobs:
       with:
         tag_name: "v${{ github.run_number }}"  # Set the tag for the release
         release_name: "Release v${{ github.run_number }}"  # Set the release name
-        files: dist/NceaBot.app  # Specify the correct path to your app bundle or zip
+        files: dist/main.py  # Specify the correct path to your app bundle or zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
