@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.10
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: "3.10"
     - name: Install dependencies
@@ -34,7 +34,7 @@ jobs:
         # Using the correct file name firstv3.py
         pyinstaller --onefile --noconsole --name NceaBot firstv3.py
     - name: Upload executable
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: NceaBot-Windows
         path: dist/NceaBot.exe
@@ -62,7 +62,7 @@ jobs:
         # Using the correct file name firstv3.py
         pyinstaller --onefile --noconsole --name NceaBot firstv3.py
     - name: Upload executable
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: NceaBot-MacOS
         path: dist/NceaBot
