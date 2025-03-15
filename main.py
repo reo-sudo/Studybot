@@ -18,6 +18,11 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from kivy.graphics import Color, Rectangle
 import os
+import platform
+
+if platform.system() == 'Windows':
+    os.environ['KIVY_GL_BACKEND'] = 'angle_sdl2'
+
 
 API_KEY = 'enter api'
 ai.configure(api_key=API_KEY)
