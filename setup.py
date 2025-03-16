@@ -1,19 +1,37 @@
 from cx_Freeze import setup, Executable
 
-# Dependencies are automatically detected, but it might need fine-tuning.
-build_options = {"packages": ["os", "kivy", "selenium", "google_generativeai"], "excludes": []}
+# List all the imports to be explicitly included in the build
+includes = [
+    'google.generativeai',
+    'selenium',
+    'kivy.app',
+    'kivy.uix.label',
+    'kivy.uix.button',
+    'kivy.uix.boxlayout',
+    'kivy.uix.textinput',
+    'kivy.uix.gridlayout',
+    'kivy.uix.floatlayout',
+    'kivy.uix.popup',
+    'kivy.uix.widget',
+    'kivy.lang',
+    'kivy.uix.screenmanager',
+    'kivy.uix.scatter',
+    'kivy.uix.scrollview',
+    'webdriver_manager.chrome',
+    'selenium.webdriver.chrome.service',
+    'os',
+]
 
-# GUI applications require a different base on Windows
-base = None
-
-# Define the executable
-executables = [Executable("main.py", base=base, target_name="NceaBot.exe")]
-
-# Setup cx_Freeze
+# Define the setup configuration
 setup(
     name="NceaBot",
-    version="0.1",
-    description="NCEA Bot Application",
-    options={"build_exe": build_options},
-    executables=executables
+    version="1.0",
+    description="NceaBot app",
+    options={
+        'build_exe': {
+            'packages': ['os', 'kivy', 'selenium', 'webdriver_manager'],
+            'includes': includes,  # Include all necessary imports
+        }
+    },
+    executables=[Executable("main.py")],
 )
