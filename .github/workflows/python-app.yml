@@ -1,47 +1,49 @@
-name: Build and Upload Windows App
+name: NceaBot
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggering
 
 permissions:
   contents: read
 
 jobs:
   build-windows:
-    runs-on: windows-latest
+    runs-on: windows-latest  # Use Windows runner for building the .exe
+
     steps:
     - uses: actions/checkout@v4
       name: Checkout repository
+      with:
+        fetch-depth: 0  # Ensures all files are fetched
+    
+    - name: Debug File Structure
+      run: |
+        echo "Current Directory: $(pwd)"
+        dir  # List all files in the current directory to confirm the presence of main.py
+    
     - name: Set up Python 3.10
       uses: actions/setup-python@v4
       with:
         python-version: "3.10"
+    
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pyinstaller kivy selenium webdriver-manager google-generativeai
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    
     - name: Build with PyInstaller
       run: |
-        pyinstaller --onefile --windowed --name NceaBot main.py  # Build the app for Windows
-    - name: Install gdrive CLI
-      run: |
-        Invoke-WebRequest -Uri https://github.com/prasmussen/gdrive/releases/download/2.1.0/gdrive-windows-x64.exe -OutFile "gdrive.exe"
-        Move-Item -Path "gdrive.exe" -Destination "C:\Windows\System32\gdrive.exe"
-    - name: Authenticate gdrive
-      run: |
-        gdrive about
-      env:
-        GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
-        GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
-        GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
-    - name: Upload to Google Drive
-      run: |
-        gdrive upload --parent your-folder-id path\to\your\windows\app.exe
-      env:
-        GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+        # Build the .exe file using PyInstaller
+        pyinstaller --onefile --windowed --name NceaBot main.py  # This builds the .exe file
+
+    - name: Upload executable
+      uses: actions/upload-artifact@v4
+      with:
+        name: NceaBot-Windows
+        path: dist/NceaBot.exe  # The path to the built .exe file
 
