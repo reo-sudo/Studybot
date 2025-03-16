@@ -35,16 +35,17 @@ jobs:
         python -m pip install --upgrade pip
         pip install cx_Freeze kivy selenium webdriver-manager google-generativeai
         if (Test-Path "requirements.txt") { pip install -r requirements.txt }
-    
+
     - name: Build with cx_Freeze
       run: |
-        # Create the .exe file using cx_Freeze directly in the workflow
-        python -m cx_Freeze main.py --target-dir build/exe
-        dir build/exe  # Check the contents of the build/exe directory to confirm if the .exe is there
+        # Run the setup.py file to create the .exe
+        python setup.py build  # This will use the setup.py to build the .exe in the build folder
+        dir build  # Check the contents of the build directory to confirm if the .exe is there
 
     - name: Upload executable
       uses: actions/upload-artifact@v4
       with:
         name: NceaBot-Windows
-        path: build/exe/NceaBot.exe  # Path to the generated .exe file from cx_Freeze
+        path: build/exe.win-amd64-3.10/NceaBot.exe  # Adjust the path to the generated .exe file
+
 
