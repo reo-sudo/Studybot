@@ -1,68 +1,47 @@
-name: NceaBot
+name: Build and Upload Windows App
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-  workflow_dispatch:  # Allows manual triggering
+  workflow_dispatch:
 
 permissions:
-  contents: write  # Ensure write permissions for pushing tags and creating releases
+  contents: read
 
 jobs:
-  build-macos:
-    runs-on: macos-latest
+  build-windows:
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-        name: Checkout repository
-        with:
-          fetch-depth: 0  # Ensures all files are fetched
-      - name: Debug File Structure
-        run: |
-          echo "Current Directory: $(pwd)"
-          ls -R  # List all files recursively to confirm the presence of main.py
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - name: Install dependencies
-        run: |
-          brew install xquartz
-          python -m pip install --upgrade pip
-          pip install pyinstaller kivy selenium webdriver-manager google-generativeai
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Build with PyInstaller
-        run: |
-          pyinstaller --onefile --windowed --name NceaBot main.py  # Using --onefile here
-      - name: Set executable permissions
-        run: chmod +x dist/NceaBot.app/Contents/MacOS/NceaBot
-      - name: Zip the macOS App
-        run: zip -r NceaBot-MacOS.zip dist/NceaBot.app
-      - name: Upload macOS App
-        uses: actions/upload-artifact@v4
-        with:
-          name: NceaBot-MacOS
-          path: NceaBot-MacOS.zip
-      - name: Create GitHub Tag
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          TAG_NAME="v${{ github.run_number }}"
-          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
-            git tag -d "$TAG_NAME"
-            git push --delete origin "$TAG_NAME"
-          fi
-          git tag -a "$TAG_NAME" -m "Release version $TAG_NAME"
-          git push origin "$TAG_NAME"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create GitHub Release and Upload App
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: "v${{ github.run_number }}"
-          name: "Release v${{ github.run_number }}"
-          files: NceaBot-MacOS.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v4
+      name: Checkout repository
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller kivy selenium webdriver-manager google-generativeai
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Build with PyInstaller
+      run: |
+        pyinstaller --onefile --windowed --name NceaBot main.py  # Build the app for Windows
+    - name: Install gdrive CLI
+      run: |
+        Invoke-WebRequest -Uri https://github.com/prasmussen/gdrive/releases/download/2.1.0/gdrive-windows-x64.exe -OutFile "gdrive.exe"
+        Move-Item -Path "gdrive.exe" -Destination "C:\Windows\System32\gdrive.exe"
+    - name: Authenticate gdrive
+      run: |
+        gdrive about
+      env:
+        GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+        GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+        GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+    - name: Upload to Google Drive
+      run: |
+        gdrive upload --parent your-folder-id path\to\your\windows\app.exe
+      env:
+        GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
 
