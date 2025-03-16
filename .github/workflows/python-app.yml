@@ -38,14 +38,13 @@ jobs:
 
     - name: Build with cx_Freeze
       run: |
-        # Run the setup.py file to create the .exe
-        python setup.py build  # This will use the setup.py to build the .exe in the build folder
+        python setup.py build  # This will use setup.py to build the .exe
         dir build  # Check the contents of the build directory to confirm if the .exe is there
 
     - name: Upload executable
       uses: actions/upload-artifact@v4
       with:
         name: NceaBot-Windows
-        path: build/exe.win-amd64-3.10/NceaBot.exe  # Adjust the path to the generated .exe file
+        path: build/exe.win-amd64-3.10/NceaBot.exe  # Adjust the path if necessary
 
 
