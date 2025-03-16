@@ -40,6 +40,7 @@ jobs:
       run: |
         # Create the .exe file using cx_Freeze directly in the workflow
         python -m cx_Freeze main.py --target-dir build/exe
+        dir build/exe  # Check the contents of the build/exe directory to confirm if the .exe is there
 
     - name: Upload executable
       uses: actions/upload-artifact@v4
