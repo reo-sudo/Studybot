@@ -37,7 +37,7 @@ MDScreen:
     MDTextField:
         id: api_input
         hint_text: "Enter an API Key"
-        model: "rectangle"
+        mode: "rectangle"
         size_hint_x: 0.8
         pos_hint: {"center_x":0.5, "y": 0.75}
 
@@ -50,7 +50,7 @@ MDScreen:
     MDTextField:
         id: prompt_input
         hint_text: "Enter Prompt"
-        model: "rectangle"
+        mode: "rectangle"
         size_hint_x: 0.8
         pos_hint: {"center_x": 0.5, "y": 0.55}
 
@@ -115,7 +115,6 @@ class NceaBot(MDApp):
     def chrome_click(self):
         global driver
         if driver is None:
-         driver = webdriver.Chrome()
          options = webdriver.ChromeOptions()
          options.add_experimental_option("detach", True)
          driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
@@ -155,22 +154,16 @@ class NceaBot(MDApp):
         else:
             self.show_dialog("No Prompt ERROR", "There is no Prompt" )
 
-    def show_popup(self, Response_text):
-        
-        content = MDScrollView()
-        label = MDLabel(
-            text=Response_text,
-            theme_text_color="Primary",
-            halign="center",
-            size_hint_y=None,
-            height=200
-        )
-        content.add_widget(label)
+    def show_popup(self):
 
-        dialog = MDDialog(
+        with open('response.txt', 'r', encoding="utf-8") as file:
+            Response_text = file.read()
+        
+        
+            dialog = MDDialog(
             title="Results From AI",
-            type="custom",
-            content_cls=content,
+            text=Response_text,
+            size_hint=(0.9, 0.8),
             buttons=[
                 MDRaisedButton(
                     text="Close",
