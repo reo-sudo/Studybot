@@ -55,15 +55,14 @@ class NceaBot(App):
            
            
         )
-        btn1.bind(on_press=self.chrome_click)
-
+       
         btn2 = Button(
            text="fetch results",
            size_hint=(0.4, 0.1),
            pos_hint = {'center_x': 0.5, 'y': 0.6},
     )
 
-        btn2.bind(on_press=self.fetch_results)
+        
 
         self.api_display = TextInput(
             text=f"API KEY: {API_KEY[:10]}....", readonly=True,
@@ -83,16 +82,31 @@ class NceaBot(App):
         s_b = Button(
             text="save api key",
             size_hint=(0.4, 0.07),
-            pos_hint={'center_x': 0.5, 'y': 0.15}
+            pos_hint={'center_x': 0.5, 'y': 0.16}
         )
         
-        s_b.bind(on_press=self.save_api_key)
-
+        
         m_b = Button(text="show results", 
                      size_hint=(0.3, 0.05),
                      pos_hint={'center_x': 0.5, 'y': 0.5})
+        
 
+        self.prompt_input = TextInput(
+           hint_text="Enter new Prompt",
+           size_hint=(0.8, 0.05),
+           pos_hint={'center_x': 0.5, 'y': 0.1}
+        )
+
+        p_b = Button(text="save prompt",
+                     size_hint=(0.3,  0.1),
+                     pos_hint={'center_x': 0.5, 'y': 0.%1})
+
+        
+        btn1.bind(on_press=self.chrome_click)
+        btn2.bind(on_press=self.fetch_results)
+        s_b.bind(on_press=self.save_api_key)
         m_b.bind(on_press=self.show_popup)
+        p_b.bind(on_press=self.save_prompt)
        
         layout.add_widget(Label1)
         layout.add_widget(btn1)
@@ -101,6 +115,8 @@ class NceaBot(App):
         layout.add_widget(self.api_display)
         layout.add_widget(s_b)
         layout.add_widget(m_b)
+        layout.add_widget(self.prompt_input)
+        layout.add_widget(p_b)
         
         return layout
     
@@ -133,13 +149,18 @@ class NceaBot(App):
                 return
 
         
-        prompt = f"""
-        Summarize the following in the file and show my results but like only my credits also number of credits over the years and other things keep it short  like 50 
-        words but say it nice and normal perosn and human like way also tell how i can improve as well :\n{text_content} 
-        """
+        prompt = f"prompt :\n{text_content} "
 
         response = model.generate_content(prompt).text
        
+    def save_prompt(self, intance):
+        global prompt
+        new_prompt = self.prompt_input.text.strip()
+        if new_prompt:
+           prompt = new_prompt
+           response = model.generate_content(prompt).text
+           print("new Prompt saved")
+
 
         with open('response.txt', 'w', encoding="utf-8") as file:
             file.write(response)
@@ -179,4 +200,3 @@ class NceaBot(App):
 
 if __name__ == "__main__":
     NceaBot().run()
-
