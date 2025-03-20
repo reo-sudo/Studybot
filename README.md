@@ -1,15 +1,20 @@
-helps students look at how their studies are going,
-An NCEA helper bot - that scans the Ncea website and looks at your neca level and where are you at and then it forms an outcome to help the student, to tell them where they are and how they are doing in their Ncea
+NCEA Helper Bot
+A smart assistant that helps students track their NCEA progress by analyzing their results and providing feedback.
 
-It can use an API of an open source or free ai model, that uses selenium, (ai model)
-To read the page source and then the gen ai looks at the source of the page and then gives the results back in a feedback format - here is an i have made example:  
+How It Works:
+The bot scans the official NCEA website, retrieves the student's current NCEA level and progress, and generates a personalized progress report.
+It uses Selenium for web automation and an open-source AI model (e.g., Google Generative AI) to process the data and provide insights.
 
+How It Runs:
+Selenium launches Chrome, allowing the user to log in.
+After logging in and navigating to the results page, the user presses Enter in the terminal.
+The bot fetches the results, generates a structured feedback file, and displays key insights in the terminal.
+The feedback file uses os.system(f'say "{results}"') to optionally read out the results aloud.
 
-Uses: selenium/google.generative/ai
-Then selenium opens chrome and the users logs in and in 
-Terminal the user clicks enter after the user has logged in 
-and has gone to the results page and then it fetches results and creates an file and displays 
-them in the Terminal/ the created file then uses system.os(f’say “{results}”’)
+Tech Stack:
+Selenium (for browser automation)
+Google Generative AI (or any free AI model)
+Python (os module) for system operations
 
 
 
