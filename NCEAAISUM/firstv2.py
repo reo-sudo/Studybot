@@ -8,7 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
 
-API_KEY = 'AIzaSyDLx7w5pESiTMfBnlzawQxwc_e7S8ARW2Y'
+API_KEY = 'add API key here'
 ai.configure(api_key=API_KEY)
 model = ai.GenerativeModel("gemini-2.0-flash")
 
