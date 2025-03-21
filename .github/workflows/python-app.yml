@@ -31,7 +31,7 @@ jobs:
       run: |
         brew install xquartz
         python -m pip install --upgrade pip
-        pip install pyinstaller kivy selenium webdriver-manager google-generativeai
+        pip install pyinstaller kivymd selenium webdriver-manager google-generativeai
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Build with PyInstaller
       run: |
