@@ -1,4 +1,4 @@
 google-generativeai
-kivy
+kivymd
 selenium
 webdriver-manager
