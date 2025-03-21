@@ -18,11 +18,11 @@ root.title("Ncea bot")
 root.resizable(False, False)
 
 
-icon_image = PhotoImage(file="/Users/ruderakshmoudgill/NCEAAISUM/NCEQ ICON.png")
+icon_image = PhotoImage(file="/NCEAAISUM/NCEQ ICON.png")
 
 root.iconphoto(True, icon_image)
 
-background_image = PhotoImage(file="/Users/ruderakshmoudgill/NCEAAISUM/Ncea_background.png")
+background_image = PhotoImage(file="/NCEAAISUM/Ncea_background.png")
 
 background_label = tk.Label(root, image=background_image)
 background_label.place(relwidth=1, relheight=1)
