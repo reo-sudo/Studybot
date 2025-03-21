@@ -1,3 +1,4 @@
+# This workflow will build your NCEA Bot application as an executable
 name: NceaBot
 
 on:
@@ -11,40 +12,34 @@ permissions:
   contents: read
 
 jobs:
-  build-windows:
-    runs-on: windows-latest  # Use Windows runner for building the .exe
-
+  build-macos:
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v4
       name: Checkout repository
       with:
         fetch-depth: 0  # Ensures all files are fetched
-    
     - name: Debug File Structure
       run: |
         echo "Current Directory: $(pwd)"
-        dir  # List all files in the current directory to confirm the presence of main.py
-    
+        ls -R  # List all files recursively to confirm the presence of main.py
     - name: Set up Python 3.10
       uses: actions/setup-python@v4
       with:
         python-version: "3.10"
-    
     - name: Install dependencies
       run: |
+        brew install xquartz
         python -m pip install --upgrade pip
-        pip install cx_Freeze kivy selenium webdriver-manager google-generativeai
-        if (Test-Path "requirements.txt") { pip install -r requirements.txt }
-
-    - name: Build with cx_Freeze
+        pip install pyinstaller kivy selenium webdriver-manager google-generativeai
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Build with PyInstaller
       run: |
-        python setup.py build  # This will use setup.py to build the .exe
-        dir build  # Check the contents of the build directory to confirm if the .exe is there
-
+        # If your main.py is inside a folder, change `main.py` to the correct path
+        pyinstaller --onefile --windowed --name NceaBot main.py  # Make sure this is the correct path
     - name: Upload executable
       uses: actions/upload-artifact@v4
       with:
-        name: NceaBot-Windows
-        path: build/exe.win-amd64-3.10/NceaBot.exe  # Adjust the path if necessary
-
+        name: NceaBot-MacOS
+        path: dist/NceaBot
 
