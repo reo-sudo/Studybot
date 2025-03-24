@@ -72,6 +72,7 @@ MDScreen:
                 size_hint_x: 1
                 size_hint_y: None
                 height: "480dp"
+                password: True
             
 
             MDRaisedButton:
