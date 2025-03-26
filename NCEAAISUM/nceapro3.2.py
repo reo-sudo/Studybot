@@ -296,7 +296,7 @@ class NceaBot(MDApp):
     def fetch_results(self):
       
        if not self.driver:
-           self.show_dialog("Browser Error", "Brower has not Lauched. Please lanch the Browser First.")
+           self.show_dialog("Browser Error", "Browser has not Lauched. Please lanch the Browser First.")
            self.update_status("Browser Error")
            return
            
