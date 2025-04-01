@@ -10,7 +10,7 @@ from kivymd.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
 from kivy.uix.widget import Widget
 from kivy.lang import builder
-from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.screenmanager import Screen,  ScreenManager
 from kivy.uix.scatter import Scatter
 from kivy.uix.textinput import TextInput
 from kivymd.uix.scrollview import MDScrollView
@@ -38,7 +38,7 @@ MDScreen:
 
         MDLabel:
             id: mainNCA
-            text: "Study Bot"
+            text: "Study Bot 1000 "
             font_style: "H4"
             halign: "center"
             size_hint_y: None
@@ -72,6 +72,7 @@ MDScreen:
                 size_hint_x: 1
                 size_hint_y: None
                 height: "480dp"
+                password: True
             
 
             MDRaisedButton:
@@ -180,8 +181,19 @@ MDScreen:
         pos_hint: {"right": 1 }
         on_release: app.change_theme()
 
+
+    MDIconButton:
+        icon: "information"
+        pos_hint: {"top": 1, "right": 1 }
+        on_release: app.show_dialog("About",  "To use this Please go to https://aistudio.google.com/ And get an API key to use this application And put the API Key in the API input can click save.")
+    
+
+                
     
 """
+
+
+
 
 
 class NceaBot(MDApp):
@@ -198,6 +210,11 @@ class NceaBot(MDApp):
         self.model = None
         self.dialog = None
 
+    
+        
+    
+    def switch_screen(self, SecondScreen):
+        self.root.current = SecondScreen
 
     def change_theme(self):
         if self.theme_cls.theme_style == "Dark":
@@ -225,6 +242,23 @@ class NceaBot(MDApp):
            self.update_status("No API Input")
 
     def chrome_click(self):
+        if not self.api_key:
+            self.show_dialog("No API ERROR", "There is no api key")
+            self.update_status("No api input")
+            return
+        
+        try:
+            ai.configure(api_key=self.api_key)
+            self.model.generate_content("Test API key")
+            self.update_status("API key verified. Launching Brower...")
+        except Exception as e:
+            self.show_dialog("Invalid API Key", "Your api key is not Valid")
+            self.update_status("Invalid API Key")
+            return
+        
+       
+
+        
         try:
             if self.driver is None or not self.is_driver_valid():
                 options = webdriver.ChromeOptions()
@@ -259,10 +293,11 @@ class NceaBot(MDApp):
 
 
 
-    def fetch_results(self,):
+    def fetch_results(self):
       
        if not self.driver:
-           self.show_dialog("Browser Error", "Brower has not Lauched. Please lanch the Browser First.")
+           self.show_dialog("Browser Error", "Browser has not Lauched. Please lanch the Browser First.")
+           self.update_status("Browser Error")
            return
            
 
@@ -296,6 +331,7 @@ class NceaBot(MDApp):
                 text_content = file.read()
         except FileNotFoundError:
             self.show_dialog("file Error", "no text_content.txt found")
+            self.update_status("File not found")
             return
         
         new_prompt = self.root.ids.prompt_input.text.strip()
@@ -311,6 +347,7 @@ class NceaBot(MDApp):
         except Exception as c:
                if "API key not valid" in str(c):
                    self.show_dialog("API key Error", "API key is missing or invalid")
+                   self.update_status("API key Error")
                else:
                    self.show_dialog("API Error", f"something went wrong: {c}")
                    return
@@ -330,12 +367,16 @@ class NceaBot(MDApp):
        
 
     def show_popup(self):
+        try:
 
-        with open('response.txt', 'r', encoding="utf-8") as file:
-            Response_text = file.read()
+            with open('response.txt', 'r', encoding="utf-8") as file:
+                Response_text = file.read()
+        except FileNotFoundError:
+            self.show_dialog("File not found error", "No file is there")
+            return
         
         
-            dialog = MDDialog(
+        dialog = MDDialog(
             title="Results From AI",
             text=Response_text,
             size_hint=(0.9, 0.8),
