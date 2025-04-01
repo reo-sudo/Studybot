@@ -196,7 +196,7 @@ MDScreen:
 
 
 
-class NceaBot(MDApp):
+class StudyBot(MDApp):
     def build(self):
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_style = "Blue"
@@ -399,4 +399,4 @@ class NceaBot(MDApp):
        
 
 if __name__ == "__main__":
-    NceaBot().run()
+    StudyBot().run()
