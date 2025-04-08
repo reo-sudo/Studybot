@@ -41,7 +41,7 @@ cd Studybot
 ## Install Dependencies:
 pip install -r requirements.txt
 ## Run the App
-python main.py
+Python main.py
 
 
 
