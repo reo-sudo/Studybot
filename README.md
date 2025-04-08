@@ -41,8 +41,7 @@ cd Studybot
 ## Install Dependencies:
 pip install -r requirements.txt
 ## Run the App
-python run_NCEAAISUM/nceapro3.1.py
-
+python main.py
 
 
 
