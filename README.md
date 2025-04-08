@@ -31,7 +31,7 @@ https://github.com/reo-sudo/Studybot/releases/tag/NceaBotWindows
 
 ---------------------------------------------------------------------------
 # Running the App by code 💻
-If the user wants to run the add by the code instead of useing the app
+If the user wants to run the add by the code instead of using the app
 
 ## follow these steps:
 Have the latest version of Python Installed 3.7+
