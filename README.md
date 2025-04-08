@@ -33,12 +33,12 @@ https://github.com/reo-sudo/Studybot/releases/tag/NceaBotWindows
 # Running the App by code 💻
 If the user wants to run the add by the code instead of using the app
 
-## follow these steps:
+## Follow these steps:
 Have the latest version of Python Installed 3.7+
-# clone the Repo
+# Clone the Repo
 git clone https://github.com/your-username/Studybot.git
 cd Studybot
-# install Dependencies:
+# Install Dependencies:
 pip install -r requirements.txt
 # Run the App
 python run_NCEAAISUM/nceapro3.1.py
