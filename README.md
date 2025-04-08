@@ -29,4 +29,21 @@ https://github.com/reo-sudo/Studybot/releases/tag/NceaBotWindows
 
 ![image](https://github.com/user-attachments/assets/f64d1aee-38a2-482f-8736-0d61df33d0be)
 
+---------------------------------------------------------------------------
+# Running the App by code 💻
+If the user wants to run the add by the code instead of useing the app
+
+## follow these steps:
+Have the latest version of Python Installed 3.7+
+# clone the Repo
+git clone https://github.com/your-username/Studybot.git
+cd Studybot
+# install Dependencies:
+pip install -r requirements.txt
+# Run the App
+python run_NCEAAISUM/nceapro3.1.py
+
+
+
+
 
