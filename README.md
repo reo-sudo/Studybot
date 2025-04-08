@@ -1,22 +1,23 @@
-NCEA Helper Bot
-A smart assistant that helps students track their NCEA progress by analyzing their results and providing feedback.
+NCEA Helper Bot A machine that analyzes results and gives students feedback on their progress through NCEA.
 
-How It Works:
-The bot scans the official NCEA website, retrieves the student's current NCEA level and progress, and generates a personalized progress report.
-It uses Selenium for web automation and an open-source AI model (e.g., Google Generative AI) to process the data and provide insights.
+How Does This Work: The bot scrapes the official NCEA site, obtains the student’s current NCEA level and progress and provide a personalized progress report. In it, Selenium is used to automate the web, and an open-source AI model (like Google Generative AI) that scrapes the data and generates insights.
 
-How It Runs:
-Selenium launches Chrome, allowing the user to log in.
-After logging in and navigating to the results page, the user presses Enter in the terminal.
-The bot fetches the results, generates a structured feedback file, and displays key insights in the terminal.
-The feedback file uses os.system(f'say "{results}"') to optionally read out the results aloud.
+How It Runs: Selenium opens up Chrome to let the user log in. The user logs in and from the results page, presses Enter in the terminal. The bot retrieves the results, creates a structured feedback file, and then shows important findings in the command line. The feedback file uses os. Add system(f'say "{results}"') to read the results out loud if you want.
 
-Tech Stack:
-Selenium (for browser automation)
-Google Generative AI (or any free AI model)
-Python (os module) for system operations
-
+First Segment: Selenium (To automate a Chrome browser) Google Generative AI (free AI model) Python (os module)
 
 
 
 ![image](https://github.com/user-attachments/assets/5d911ef7-ce0b-4a1f-84d6-181fce356dae)
+
+
+Mac link: 
+https://github.com/reo-sudo/Studybot/releases/tag/NceaBotMac
+
+Windows link: 
+https://github.com/reo-sudo/Studybot/releases/tag/NceaBotWindows
+
+How to Use:
+![image](https://github.com/user-attachments/assets/f64d1aee-38a2-482f-8736-0d61df33d0be)
+
+
