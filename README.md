@@ -35,12 +35,12 @@ If the user wants to run the add by the code instead of using the app
 
 ## Follow these steps:
 Have the latest version of Python Installed 3.7+
-# Clone the Repo
+## Clone the Repo
 git clone https://github.com/your-username/Studybot.git
 cd Studybot
-# Install Dependencies:
+## Install Dependencies:
 pip install -r requirements.txt
-# Run the App
+## Run the App
 python run_NCEAAISUM/nceapro3.1.py
 
 
